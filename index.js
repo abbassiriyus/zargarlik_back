@@ -1,6 +1,7 @@
 require("dotenv").config()
 var express = require('express');
 var app = express();
+const cheerio = require("cheerio")
 const uuid = require("uuid");
 const fs = require("fs");
 var cors = require('cors');
@@ -11,6 +12,7 @@ app.use(upload())
 app.use(express.static('public'));
 const jwt = require('jsonwebtoken');
 const { cos } = require("mathjs");
+const { default: axios } = require("axios");
 const TOKEN = '69c65fbc9aeea59efdd9d8e04133485a09ffd78a70aff5700ed1a4b3db52d33392d67f12c1'
 function autificationToken(req, res, next) {
     const authHeader = req.headers['authorization']
@@ -834,23 +836,112 @@ app.put("/minicategory/:id", (req, res) => {
 
 })
 
-app.get("/product", (req, res) => {
+app.get("/product/:category/:minicategory/:number", async (req, res) => {
+    var url = `https://www.diamondsfactory.com/${req.params.category}/${req.params.minicategory}?page=${req.params.number}`
+        const { data } =await axios({
+            method: 'GET',
+            url: url
+        })
+        var select = "div.middle-container div.categoryDiv2"
+        var a = []
+        const $ = cheerio.load(data)
+        $(select).each((index, item) => {
+            $(item).children().each((index, data) => {
+                var pushdata = JSON.parse($(data).attr().onclick.slice(15, -2))
+                pushdata.code = `${$(data, "div.showbox").html()}`
+                pushdata.img = $(data).find('img').attr("src")
+                a.push(pushdata)
+            }
+            )
+        })
+        console.log(a.length);
+      res.status(200).send(a)
+    
 
 })
-app.get("/product/:id", (req, res) => {
+app.get("/product/:category/:minicategory", async (req, res) => {
+    var url = `https://www.diamondsfactory.com/${req.params.category}/${req.params.minicategory}`
+    const { data } = await axios({
+        method: 'GET',
+        url: url
+    })
+    var select = "div.middle-container div.categoryDiv2"
+    var a = []
+    const $ = cheerio.load(data)
+    $(select).each((index, item) => {
+        $(item).children().each((index, data) => {
+            var pushdata = JSON.parse($(data).attr().onclick.slice(15, -2))
+            pushdata.code = `${$(data, "div.showbox").html()}`
+            pushdata.img = $(data).find('img').attr("src")
+            a.push(pushdata)
+        }
+        )
+    })
+    console.log(a.length);
+    res.status(200).send(a)
+
 
 })
-app.post("/product", (req, res) => {
+app.get("/product/:category", async (req, res) => {
+    var url = `https://www.diamondsfactory.com/${req.params.category}`
+    const { data } = await axios({
+        method: 'GET',
+        url: url
+    })
+    var select = "div.middle-container div.categoryDiv2"
+    var a = []
+    const $ = cheerio.load(data)
+    $(select).each((index, item) => {
+        $(item).children().each((index, data) => {
+            var pushdata = JSON.parse($(data).attr().onclick.slice(15, -2))
+            pushdata.code = `${$(data, "div.showbox").html()}`
+            pushdata.img = $(data).find('img').attr("src")
+            a.push(pushdata)
+        }
+        )
+    })
+    console.log(a.length);
+    res.status(200).send(a)
+
 
 })
-app.delete("/product", (req, res) => {
+app.get('/page/:category/:minicategory', async (req,res)=>{
+    var url = `https://www.diamondsfactory.com/${req.params.category}/${req.params.minicategory}`
+    var a = 0
+    const { data } = await axios({
+        method: 'GET',
+        url: url
+    })
+    var select = "div.row.row-compact div.col-sm-12.col-xs-12.text-center div.pagination div.links a.paginationlink"
 
+    const $ = cheerio.load(data)
+    $(select).each((index, item) => {
+        console.log("hello");
+        if ($(item).text().length<=3) {
+            a = $(item).text()
+        }
+    })
+    res.status(200).send(`${a}`)
 })
-app.put("/product/:id", (req, res) => {
 
+app.get('/page/:category', async (req, res) => {
+    var url = `https://www.diamondsfactory.com/${req.params.category}`
+    var a = 0
+    const { data } = await axios({
+        method: 'GET',
+        url: url
+    })
+    var select = "div.row.row-compact div.col-sm-12.col-xs-12.text-center div.pagination div.links a.paginationlink"
 
+    const $ = cheerio.load(data)
+    $(select).each((index, item) => {
+        console.log("hello");
+        if ($(item).text().length <= 3) {
+            a = $(item).text()
+        }
+    })
+    res.status(200).send(`${a}`)
 })
-
 
 
 
