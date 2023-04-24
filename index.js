@@ -2,6 +2,7 @@ require("dotenv").config()
 var express = require('express');
 var app = express();
 const cheerio = require("cheerio")
+const { default: axios } = require("axios");
 const uuid = require("uuid");
 const fs = require("fs");
 var cors = require('cors');
@@ -9,14 +10,15 @@ const upload = require("express-fileupload")
 const PORT = process.env.PORT || 5000
 app.use(cors())
 app.use(upload())
+// const axios = require('axios');
 app.use(express.static('public'));
 const jwt = require('jsonwebtoken');
-const { default: axios } = require("axios");
+// const { cos } = require("mathjs");
 const TOKEN = '69c65fbc9aeea59efdd9d8e04133485a09ffd78a70aff5700ed1a4b3db52d33392d67f12c1'
 function autificationToken(req, res, next) {
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]
-    if (token == null) return res.sendStatus(401)
+    if (token === null) return res.sendStatus(401)
     jwt.verify(token, TOKEN, (err, user) => {
         if (err) res.sendStatus(403)
     })
@@ -35,7 +37,7 @@ app.get("/users/help", (req, res) => {
         "yangiliklar": "emailga yangiliklar yuborilsinmi true yoki false",
         "maxfilik": "maxfilik malumotlariga rozimisiz true yoki false"
     }
-    res.send(data)
+    res.status(200).send(data)
 })
 app.get('/users', (req, res) => {
     const User = JSON.parse(fs.readFileSync('./Users.json', "utf-8"))
@@ -218,7 +220,7 @@ app.get('/dollor', (req, res) => {
 app.post('/dollor', (req, res) => {
     const User = JSON.parse(fs.readFileSync('./Dollor.json', "utf-8"))
     var data = {
-        dollor:req.body.dollor*1
+        dollor: req.body.dollor * 1
     }
     fs.writeFileSync("./Dollor.json", JSON.stringify(data, 0, 2), "utf-8")
     res.status(201).send("Yaratildi")
@@ -496,7 +498,7 @@ app.put("/dokon/ishvaqti/:id", (req, res) => {
 // instagram
 app.get("/instagram", (req, res) => {
     const User = JSON.parse(fs.readFileSync('./Instagram.json', "utf-8"))
-    res.status(200).send(User)
+    res.status(200).json(User)
 })
 app.get("/instagram/:id", (req, res) => {
     const User = JSON.parse(fs.readFileSync('./Instagram.json', "utf-8"))
@@ -678,7 +680,6 @@ app.put("/category/:id", (req, res) => {
 })
 
 
-//subcategory
 app.get("/subcategory", (req, res) => {
     const User = JSON.parse(fs.readFileSync('./subcategory.json', "utf-8"))
     res.status(200).send(User)
@@ -761,17 +762,17 @@ app.get("/minicategory/:id", (req, res) => {
 app.post("/minicategory", (req, res) => {
     const User = JSON.parse(fs.readFileSync('./minicategory.json', "utf-8"))
     var rendom = Math.floor(Math.random() * 1000000);
-    var { img1,img2 } =req.files
+    var { img1, img2 } = req.files
     var img4 = rendom + img1.name;
-    var img3 = rendom+1+img2.name
+    var img3 = rendom + 1 + img2.name
     img1.mv(__dirname + '/public/' + img4);
     img2.mv(__dirname + '/public/' + img3);
     var data = {
         id: uuid.v4(),
         "subcategoryId": req.body.subcategoryId,
         "minicategory": req.body.minicategory,
-        "img1":img2,
-        "img2":img3,
+        "img1": img2,
+        "img2": img3,
     }
     User.push(data)
     fs.writeFileSync("./minicategory.json", JSON.stringify(User, 0, 2), "utf-8")
@@ -837,25 +838,25 @@ app.put("/minicategory/:id", (req, res) => {
 
 app.get("/product/:category/:minicategory/:number", async (req, res) => {
     var url = `https://www.diamondsfactory.com/${req.params.category}/${req.params.minicategory}?page=${req.params.number}`
-        const { data } =await axios({
-            method: 'GET',
-            url: url
-        })
-        var select = "div.middle-container div.categoryDiv2"
-        var a = []
-        const $ = cheerio.load(data)
-        $(select).each((index, item) => {
-            $(item).children().each((index, data) => {
-                var pushdata = JSON.parse($(data).attr().onclick.slice(15, -2))
-                pushdata.code = `${$(data, "div.showbox").html()}`
-                pushdata.img = $(data).find('img').attr("src")
-                a.push(pushdata)
-            }
-            )
-        })
-        console.log(a.length);
-      res.status(200).send(a)
-    
+    const { data } = await axios({
+        method: 'GET',
+        url: url
+    })
+    var select = "div.middle-container div.categoryDiv2"
+    var a = []
+    const $ = cheerio.load(data)
+    $(select).each((index, item) => {
+        $(item).children().each((index, data) => {
+            var pushdata = JSON.parse($(data).attr().onclick.slice(15, -2))
+            pushdata.code = `${$(data, "div.showbox").html()}`
+            pushdata.img = $(data).find('img').attr("src")
+            a.push(pushdata)
+        }
+        )
+    })
+    console.log(a.length);
+    res.status(200).send(a)
+
 
 })
 app.get("/product/:category/:minicategory", async (req, res) => {
@@ -904,7 +905,7 @@ app.get("/product/:category", async (req, res) => {
 
 
 })
-app.get('/page/:category/:minicategory', async (req,res)=>{
+app.get('/page/:category/:minicategory', async (req, res) => {
     var url = `https://www.diamondsfactory.com/${req.params.category}/${req.params.minicategory}`
     var a = 0
     const { data } = await axios({
@@ -916,7 +917,7 @@ app.get('/page/:category/:minicategory', async (req,res)=>{
     const $ = cheerio.load(data)
     $(select).each((index, item) => {
         console.log("hello");
-        if ($(item).text().length<=3) {
+        if ($(item).text().length <= 3) {
             a = $(item).text()
         }
     })
