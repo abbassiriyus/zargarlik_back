@@ -116,6 +116,7 @@ app.put("/users/:id", (req, res) => {
 
 // Address
 app.get("/address/help", (req, res) => {
+    
     var data = {
         "UserId": "userni idsini yuborish kerak",
         "sarlavha": "Mr,Mrs shunga o`xshashnarsala",
@@ -643,6 +644,7 @@ app.post("/category", (req, res) => {
     var data = {
         id: uuid.v4(),
         "category": req.body.category,
+        
     }
     User.push(data)
     fs.writeFileSync("./Category.json", JSON.stringify(User, 0, 2), "utf-8")
@@ -836,7 +838,7 @@ app.put("/minicategory/:id", (req, res) => {
 
 })
 app.get("/product/:category/:minicategory/:padcategory?number", async (req, res) => {
-    var url = `https://www.diamondsfactory.com/${req.params.category}/${req.params.minicategory}/${req.params.padcategory}?page=${req.quary.number}`
+    var url = `https://www.diamondsfactory.co.uk/${req.params.category}/${req.params.minicategory}/${req.params.padcategory}?page=${req.quary.number}`
     const { data } = await axios({
         method: 'GET',
         url: url
@@ -859,7 +861,7 @@ app.get("/product/:category/:minicategory/:padcategory?number", async (req, res)
 
 })
 app.get("/product/:category/:minicategory/:padcategory", async (req, res) => {
-    var url = `https://www.diamondsfactory.com/${req.params.category}/${req.params.minicategory}/${req.params.padcategory}`
+    var url = `https://www.diamondsfactory.co.uk/${req.params.category}/${req.params.minicategory}/${req.params.padcategory}`
     const { data } = await axios({
         method: 'GET',
         url: url
@@ -882,7 +884,7 @@ app.get("/product/:category/:minicategory/:padcategory", async (req, res) => {
 
 })
 app.get("/product/:category/:minicategory?number", async (req, res) => {
-    var url = `https://www.diamondsfactory.com/${req.params.category}/${req.params.minicategory}?page=${req.quary.number}`
+    var url = `https://www.diamondsfactory.co.uk/${req.params.category}/${req.params.minicategory}?page=${req.quary.number}`
     const { data } = await axios({
         method: 'GET',
         url: url
@@ -905,7 +907,7 @@ app.get("/product/:category/:minicategory?number", async (req, res) => {
 
 })
 app.get("/product/:category/:minicategory", async (req, res) => {
-    var url = `https://www.diamondsfactory.com/${req.params.category}/${req.params.minicategory}`
+    var url = `https://www.diamondsfactory.co.uk/${req.params.category}/${req.params.minicategory}`
     const { data } = await axios({
         method: 'GET',
         url: url
@@ -928,7 +930,7 @@ app.get("/product/:category/:minicategory", async (req, res) => {
 
 })
 app.get("/product/:category", async (req, res) => {
-    var url = `https://www.diamondsfactory.com/${req.params.category}`
+    var url = `https://www.diamondsfactory.co.uk/${req.params.category}`
     const { data } = await axios({
         method: 'GET',
         url: url
@@ -951,7 +953,7 @@ app.get("/product/:category", async (req, res) => {
 
 })
 app.get('/page/:category/:minicategory', async (req, res) => {
-    var url = `https://www.diamondsfactory.com/${req.params.category}/${req.params.minicategory}`
+    var url = `https://www.diamondsfactory.co.uk/${req.params.category}/${req.params.minicategory}`
     var a = 0
     const { data } = await axios({
         method: 'GET',
@@ -970,7 +972,7 @@ app.get('/page/:category/:minicategory', async (req, res) => {
 })
 
 app.get('/page/:category/:minicategory/:padcategory', async (req, res) => {
-    var url = `https://www.diamondsfactory.com/${req.params.category}/${req.params.minicategory}/${req.params.padcategory}`
+    var url = `https://www.diamondsfactory.co.uk/${req.params.category}/${req.params.minicategory}/${req.params.padcategory}`
     var a = 0
     const { data } = await axios({
         method: 'GET',
@@ -988,7 +990,7 @@ app.get('/page/:category/:minicategory/:padcategory', async (req, res) => {
     res.status(200).send(`${a}`)
 })
 app.get('/page/:category', async (req, res) => {
-    var url = `https://www.diamondsfactory.com/${req.params.category}`
+    var url = `https://www.diamondsfactory.co.uk/${req.params.category}`
     var a = 0
     const { data } = await axios({
         method: 'GET',
