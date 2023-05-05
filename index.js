@@ -1010,7 +1010,21 @@ app.get('/page/:category', async (req, res) => {
 
 
 
-
+app.post("/oneproduct", async (req,res)=>{
+    var url=req.body.page
+    const { data } = await axios({
+        method: 'GET',
+        url: url
+    })
+    
+    var select="html body div.body-wrapper div#product-product.main-container div.containerSticky"
+    const $ = cheerio.load(data)
+    $(select).each((index, item) => {
+            a = $(item).html()
+        res.status(200).send(a)    
+    })
+    
+    })
 
 
 
