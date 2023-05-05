@@ -849,7 +849,14 @@ app.get("/product/:category/:minicategory/:padcategory?number", async (req, res)
     $(select).each((index, item) => {
         $(item).children().each((index, data) => {
             var pushdata = JSON.parse($(data).attr().onclick.slice(15, -2))
-            pushdata.code = `${$(data, "div.showbox").html()}`
+                        var d=$(data, "div.showbox").html()
+            var b=d.indexOf('class="sale-label">SALE</div>\n<a')
+     
+
+            var t=d.indexOf('tabindex="1" class="catLink"')
+        
+            var y=d.slice(0,b+33)+d.slice(t)
+            pushdata.code = `${y}`
             pushdata.img = $(data).find('img').attr("src")
             a.push(pushdata)
         }
@@ -872,7 +879,14 @@ app.get("/product/:category/:minicategory/:padcategory", async (req, res) => {
     $(select).each((index, item) => {
         $(item).children().each((index, data) => {
             var pushdata = JSON.parse($(data).attr().onclick.slice(15, -2))
-            pushdata.code = `${$(data, "div.showbox").html()}`
+                        var d=$(data, "div.showbox").html()
+            var b=d.indexOf('class="sale-label">SALE</div>\n<a')
+     
+
+            var t=d.indexOf('tabindex="1" class="catLink"')
+        
+            var y=d.slice(0,b+33)+d.slice(t)
+            pushdata.code = `${y}`
             pushdata.img = $(data).find('img').attr("src")
             a.push(pushdata)
         }
@@ -895,7 +909,14 @@ app.get("/product/:category/:minicategory?number", async (req, res) => {
     $(select).each((index, item) => {
         $(item).children().each((index, data) => {
             var pushdata = JSON.parse($(data).attr().onclick.slice(15, -2))
-            pushdata.code = `${$(data, "div.showbox").html()}`
+                        var d=$(data, "div.showbox").html()
+            var b=d.indexOf('class="sale-label">SALE</div>\n<a')
+     
+
+            var t=d.indexOf('tabindex="1" class="catLink"')
+        
+            var y=d.slice(0,b+33)+d.slice(t)
+            pushdata.code = `${y}`
             pushdata.img = $(data).find('img').attr("src")
             a.push(pushdata)
         }
@@ -918,7 +939,14 @@ app.get("/product/:category/:minicategory", async (req, res) => {
     $(select).each((index, item) => {
         $(item).children().each((index, data) => {
             var pushdata = JSON.parse($(data).attr().onclick.slice(15, -2))
-            pushdata.code = `${$(data, "div.showbox").html()}`
+                        var d=$(data, "div.showbox").html()
+            var b=d.indexOf('class="sale-label">SALE</div>\n<a')
+     
+
+            var t=d.indexOf('tabindex="1" class="catLink"')
+        
+            var y=d.slice(0,b+33)+d.slice(t)
+            pushdata.code = `${y}`
             pushdata.img = $(data).find('img').attr("src")
             a.push(pushdata)
         }
@@ -943,10 +971,10 @@ app.get("/product/:category", async (req, res) => {
             var pushdata = JSON.parse($(data).attr().onclick.slice(15, -2))
             var d=$(data, "div.showbox").html()
             var b=d.indexOf('class="sale-label">SALE</div>\n<a')
-            console.log(b);
+     
 
             var t=d.indexOf('tabindex="1" class="catLink"')
-            console.log(t);
+        
             var y=d.slice(0,b+33)+d.slice(t)
             pushdata.code = `${y}`
             pushdata.img = $(data).find('img').attr("src")
