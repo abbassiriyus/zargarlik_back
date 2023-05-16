@@ -1052,7 +1052,7 @@ app.post("/oneproduct", async (req,res)=>{
         url: url
     })
     
-    var select="html body div.body-wrapper div#product-product.main-container div.containerSticky"
+    var select="#page-heading"
     const $ = cheerio.load(data)
     $(select).each((index, item) => {
             a = $(item).html()
