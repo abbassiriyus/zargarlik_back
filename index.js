@@ -1061,12 +1061,31 @@ app.post("/oneproduct", async (req,res)=>{
     })
 
 
+    app.get('/carousel', async (req,res)=>{
+        try{
+      const browser = await puppeteer.launch({headless:"new"});
+      const page = await browser.newPage();
+      var page2='.prodimgInner'
+      await page.goto(req.body.page);
+      await page.screenshot({ path: 'about3.png' });
+      await page.waitForSelector(page2)
+      console.log("new");
+      var exp= await page.$eval(page2, (el)=>el.innerHTML)
+      await browser.close();
+      console.log("salom");
+      res.status(200).send(exp)}catch (err) {
+        console.log(err);
+      }
+     
+     })
 
 
 
 
 
 
-app.listen(PORT, function () {
+
+
+    app.listen(PORT, function () {
     console.log(`Listening to Port ${PORT}`);
 });
