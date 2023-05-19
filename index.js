@@ -897,7 +897,7 @@ app.get("/product/:category/:minicategory/:padcategory", async (req, res) => {
 
 
 })
-app.get("/product/:category/:minicategory?number", async (req, res) => {
+app.get("/product/:category/:minicategory/", async (req, res) => {
     var url = `https://www.diamondsfactory.com/${req.params.category}/${req.params.minicategory}?page=${req.quary.number}`
     const { data } = await axios({
         method: 'GET',
