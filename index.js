@@ -1,4 +1,5 @@
 require("dotenv").config()
+const puppeteer=require("puppeteer")
 var express = require('express');
 var app = express();
 const cheerio = require("cheerio")
@@ -9,6 +10,7 @@ var cors = require('cors');
 const upload = require("express-fileupload")
 const PORT = process.env.PORT || 5000
 app.use(cors())
+
 app.use(upload())
 // const axios = require('axios');
 app.use(express.static('public'));
@@ -1062,13 +1064,13 @@ app.post("/oneproduct", async (req,res)=>{
     })
 
 
-    app.get('/carousel', async (req,res)=>{
+    app.post('/carousel', async (req,res)=>{
         try{
       const browser = await puppeteer.launch({headless:"new"});
       const page = await browser.newPage();
       var page2='.prodimgInner'
-      await page.goto(req.body.page);
-      await page.screenshot({ path: 'about3.png' });
+      await page.goto(req.body.pages);
+    //   await page.screenshot({ path: 'about3.png' });
       await page.waitForSelector(page2)
       console.log("new");
       var exp= await page.$eval(page2, (el)=>el.innerHTML)
