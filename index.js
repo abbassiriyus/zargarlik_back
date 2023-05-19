@@ -1073,8 +1073,10 @@ app.post("/oneproduct", async (req,res)=>{
       var exp= await page.$eval(page2, (el)=>el.innerHTML)
       await browser.close();
       console.log("salom");
-      res.status(200).send(exp)}catch (err) {
+      res.status(200).send(exp)
+    }catch (err) {
         console.log(err);
+        res.status(404).send(err)
       }
      
      })
