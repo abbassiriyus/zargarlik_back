@@ -179,7 +179,6 @@ app.get('/page/:category', async (req, res) => {
 
 
 app.get('/category', async (req,res)=>{
-        try{
       const browser = await puppeteer.launch({ headless:true,args:['--no-sandbox']});
       const page = await browser.newPage();
       var page2='#page-heading'
@@ -188,9 +187,6 @@ app.get('/category', async (req,res)=>{
       var exp=await page.$eval(page2, (el)=>el.innerHTML)
       await browser.close();
       res.status(200).send(exp)
-    }catch(err){
-     res.status(200).send("no")
-      }
     })
 
 
