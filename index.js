@@ -179,7 +179,7 @@ app.get('/page/:category', async (req, res) => {
 
 
 app.get('/category', async (req,res)=>{
-      const browser = await puppeteer.launch({ headless:true,args:['--no-sandbox']});
+      const browser = await puppeteer.launch({ headless:'new'});
       const page = await browser.newPage();
       var page2='#page-heading'
       await page.goto(req.query.pages);
