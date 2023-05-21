@@ -1,5 +1,5 @@
 require("dotenv").config()
-const puppeteer = require("puppeteer")
+const puppeteer=require("puppeteer")
 var express = require('express');
 var app = express();
 const cheerio = require("cheerio")
@@ -7,7 +7,6 @@ const { default:axios } = require("axios");
 var cors = require('cors');
 const upload = require("express-fileupload")
 const PORT = process.env.PORT || 5000
-
 app.use(cors())
 app.use(upload())
 app.use(express.static('public'));
@@ -159,6 +158,9 @@ app.get('/page/:category', async (req, res) => {
     })
     res.status(200).send(`${a}`)
 })
+
+
+
 // app.post("/oneproduct", async (req,res)=>{
 //     // var url=req.body.page
 //     // console.log();
@@ -174,41 +176,34 @@ app.get('/page/:category', async (req, res) => {
 //         res.status(200).send(a)    
 //     })
 //     })
-app.post('/category', async (req,res)=>{
-    // try{
-        const browser = await puppeteer.launch({
-            args: [
-              "--disable-setuid-sandbox",
-              "--no-sandbox",
-              "--single-process",
-              "--no-zygote",
-            ],
-            executablePath:
-              process.env.NODE_ENV === "production"
-                ? process.env.PUPPETEER_EXECUTABLE_PATH
-                : puppeteer.executablePath(),
-          });
-        const page = await browser.newPage();
-        var page2='#page-heading'
-        await page.goto(req.body.pages);
-        console.log(page);
-        // await page.waitForSelector(page2)
-        // var exp = await page.$eval(page2, (el)=>el.innerHTML)
-        // res.status(200).send(exp)
-        await browser.close();
-    // }catch(err){
-    //     console.log("test2");
-    //     const browser = await puppeteer.launch({headless:"new"});
-    //     const page = await browser.newPage();
-    //     var page2='#page-heading'
-    //     await page.goto(req.body.pages);
-    //     await page.waitForSelector(page2)
-    //     var exp=await page.$eval(page2, (el)=>el.innerHTML)
-    //     await browser.close();
-    //     res.status(404).send(exp)
-    //   }
-})
 
-app.listen(PORT, function () {
+
+app.post('/category', async (req,res)=>{
+        try{
+        console.log("test");
+      const browser = await puppeteer.launch({ headless:true,args:['--no-sandbox']});
+      const page = await browser.newPage();
+      var page2='#page-heading'
+      await page.goto(req.body.pages);
+      await page.waitForSelector(page2)
+      var exp=await page.$eval(page2, (el)=>el.innerHTML)
+      await browser.close();
+      res.status(200).send(exp)
+    }catch(err){
+        console.log("test2");
+        const browser = await puppeteer.launch({
+            headless:true,args:['--no-sandbox']
+    });
+      }
+    })
+
+
+
+
+
+
+
+
+    app.listen(PORT, function () {
     console.log(`Listening to Port ${PORT}`);
 });
