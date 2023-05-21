@@ -180,20 +180,16 @@ app.get('/page/:category', async (req, res) => {
 
 app.post('/category', async (req,res)=>{
         try{
-        console.log("test");
       const browser = await puppeteer.launch({ headless:true,args:['--no-sandbox']});
       const page = await browser.newPage();
       var page2='#page-heading'
-      await page.goto(req.body.pages);
+      await page.goto(req.query.pages);
       await page.waitForSelector(page2)
       var exp=await page.$eval(page2, (el)=>el.innerHTML)
       await browser.close();
       res.status(200).send(exp)
     }catch(err){
-        console.log("test2");
-        const browser = await puppeteer.launch({
-            headless:true,args:['--no-sandbox']
-    });
+     res.status(200).send("no")
       }
     })
 
