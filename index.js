@@ -178,21 +178,18 @@ app.get('/page/:category', async (req, res) => {
 //     })
 
 
-app.post('/oneproduct', async (req,res)=>{
+app.post('/oneproduct', async(req,res)=>{
         try{
+            console.log("test");
       const browser = await puppeteer.launch({headless:"new"});
       const page = await browser.newPage();
       var page2='#page-heading'
       await page.goto(req.body.pages);
-    //   await page.screenshot({ path: 'about3.png' });
       await page.waitForSelector(page2)
-  
       var exp= await page.$eval(page2, (el)=>el.innerHTML)
       await browser.close();
-      
       res.status(200).send(exp)
-    }catch (err) {
-        
+    }catch(err){
         res.status(404).send(err)
       }
      
