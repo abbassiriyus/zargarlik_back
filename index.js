@@ -174,7 +174,7 @@ app.get('/page/:category', async (req, res) => {
 //     })
 //     })
 app.post('/category', async (req,res)=>{
-        try{
+    // try{
         console.log("test");
         const browser = await puppeteer.launch({headless:"new"});
         const page = await browser.newPage();
@@ -184,17 +184,17 @@ app.post('/category', async (req,res)=>{
         var exp=await page.$eval(page2, (el)=>el.innerHTML)
         await browser.close();
         res.status(200).send(exp)
-    }catch(err){
-        console.log("test2");
-        const browser = await puppeteer.launch({headless:"new"});
-        const page = await browser.newPage();
-        var page2='#page-heading'
-        await page.goto(req.body.pages);
-        await page.waitForSelector(page2)
-        var exp=await page.$eval(page2, (el)=>el.innerHTML)
-        await browser.close();
-        res.status(404).send(exp)
-      }
+    // }catch(err){
+    //     console.log("test2");
+    //     const browser = await puppeteer.launch({headless:"new"});
+    //     const page = await browser.newPage();
+    //     var page2='#page-heading'
+    //     await page.goto(req.body.pages);
+    //     await page.waitForSelector(page2)
+    //     var exp=await page.$eval(page2, (el)=>el.innerHTML)
+    //     await browser.close();
+    //     res.status(404).send(exp)
+    //   }
 })
 
 app.listen(PORT, function () {
