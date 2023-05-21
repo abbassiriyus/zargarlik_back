@@ -7,6 +7,7 @@ const { default:axios } = require("axios");
 var cors = require('cors');
 const upload = require("express-fileupload")
 const PORT = process.env.PORT || 5000
+
 app.use(cors())
 app.use(upload())
 app.use(express.static('public'));
@@ -180,10 +181,11 @@ app.post('/category', async (req,res)=>{
         const page = await browser.newPage();
         var page2='#page-heading'
         await page.goto(req.body.pages);
-        await page.waitForSelector(page2)
-        var exp=await page.$eval(page2, (el)=>el.innerHTML)
+        console.log(page);
+        // await page.waitForSelector(page2)
+        // var exp = await page.$eval(page2, (el)=>el.innerHTML)
+        // res.status(200).send(exp)
         await browser.close();
-        res.status(200).send(exp)
     // }catch(err){
     //     console.log("test2");
     //     const browser = await puppeteer.launch({headless:"new"});
