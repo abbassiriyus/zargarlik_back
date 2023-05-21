@@ -178,7 +178,7 @@ app.get('/page/:category', async (req, res) => {
 //     })
 
 
-app.post('/category', async (req,res)=>{
+app.get('/category', async (req,res)=>{
         try{
       const browser = await puppeteer.launch({ headless:true,args:['--no-sandbox']});
       const page = await browser.newPage();
