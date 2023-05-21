@@ -3,7 +3,7 @@ const puppeteer=require("puppeteer")
 var express = require('express');
 var app = express();
 const cheerio = require("cheerio")
-const { default: axios } = require("axios");
+const { axios } = require("axios");
 var cors = require('cors');
 const upload = require("express-fileupload")
 const PORT = process.env.PORT || 5000
@@ -13,7 +13,6 @@ app.use(express.static('public'));
 
 
 app.get("/product/:category/:minicategory/:padcategory", async (req, res) => {
-
     var url = `https://www.diamondsfactory.com/${req.params.category}/${req.params.minicategory}/${req.params.padcategory}?page=${req.quary.number}`
     const { data } = await axios({
         method: 'GET',
@@ -162,28 +161,28 @@ app.get('/page/:category', async (req, res) => {
 
 
 
-app.post("/oneproduct", async (req,res)=>{
-    // var url=req.body.page
-    // console.log();
-    const { data } = await axios({
-        method: 'GET',
-        url: req.body.page
-    })
+// app.post("/oneproduct", async (req,res)=>{
+//     // var url=req.body.page
+//     // console.log();
+//     const { data } = await axios({
+//         method: 'GET',
+//         url: req.body.page
+//     })
     
-    var select="#page-heading"
-    const $ = cheerio.load(data)
-    $(select).each((index, item) => {
-            a = $(item).html()
-        res.status(200).send(a)    
-    })
-    })
+//     var select="#page-heading"
+//     const $ = cheerio.load(data)
+//     $(select).each((index, item) => {
+//             a = $(item).html()
+//         res.status(200).send(a)    
+//     })
+//     })
 
 
-app.post('/carousel', async (req,res)=>{
+app.post('/oneproduct', async (req,res)=>{
         try{
       const browser = await puppeteer.launch({headless:"new"});
       const page = await browser.newPage();
-      var page2='.prodimgInner'
+      var page2='#page-heading'
       await page.goto(req.body.pages);
     //   await page.screenshot({ path: 'about3.png' });
       await page.waitForSelector(page2)
