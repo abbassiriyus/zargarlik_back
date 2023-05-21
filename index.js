@@ -1,5 +1,5 @@
 require("dotenv").config()
-const puppeteer=require("puppeteer")
+const puppeteer = require("puppeteer")
 var express = require('express');
 var app = express();
 const cheerio = require("cheerio")
@@ -158,9 +158,6 @@ app.get('/page/:category', async (req, res) => {
     })
     res.status(200).send(`${a}`)
 })
-
-
-
 // app.post("/oneproduct", async (req,res)=>{
 //     // var url=req.body.page
 //     // console.log();
@@ -176,19 +173,17 @@ app.get('/page/:category', async (req, res) => {
 //         res.status(200).send(a)    
 //     })
 //     })
-
-
-app.post('/category', async(req,res)=>{
+app.post('/category', async (req,res)=>{
         try{
         console.log("test");
-      const browser = await puppeteer.launch({headless:"new"});
-      const page = await browser.newPage();
-      var page2='#page-heading'
-      await page.goto(req.body.pages);
-      await page.waitForSelector(page2)
-      var exp=await page.$eval(page2, (el)=>el.innerHTML)
-      await browser.close();
-      res.status(200).send(exp)
+        const browser = await puppeteer.launch({headless:"new"});
+        const page = await browser.newPage();
+        var page2='#page-heading'
+        await page.goto(req.body.pages);
+        await page.waitForSelector(page2)
+        var exp=await page.$eval(page2, (el)=>el.innerHTML)
+        await browser.close();
+        res.status(200).send(exp)
     }catch(err){
         console.log("test2");
         const browser = await puppeteer.launch({headless:"new"});
@@ -200,16 +195,8 @@ app.post('/category', async(req,res)=>{
         await browser.close();
         res.status(404).send(exp)
       }
-     
-    })
+})
 
-
-
-
-
-
-
-
-    app.listen(PORT, function () {
+app.listen(PORT, function () {
     console.log(`Listening to Port ${PORT}`);
 });
