@@ -25,6 +25,6 @@
     "express-fileupload": "^1.4.0",
     "jsonwebtoken": "^9.0.0",
     "nodemon": "^2.0.22",
-    "puppeteer": "^19.0.0"
+    "puppeteer": "^19.7.2"
   }
 }
